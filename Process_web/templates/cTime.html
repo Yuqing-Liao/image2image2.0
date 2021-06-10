@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变换时间背景</title>
+
+    <link rel="stylesheet" href="{% static 'css/zoomify.min.css' %}">
+    <style>
+        .cd {
+            margin: 0 auto;
+            width: 90%;
+            height: 50px;
+
+        }
+
+        .cd th {
+
+            margin: 0 auto;
+            width: 1%;
+            height: 50px;
+
+        }
+
+        .cd a {
+            display: block;
+            background-color: gray;
+            line-height: 50px;
+            color: white;
+            text-decoration: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        a:hover {
+            background-color: tomato;
+        }
+
+        .now a {
+            background-color: tomato;
+        }
+
+        .tab1 {
+            width: 450px;
+            margin: 0 auto;
+        }
+
+        body {
+            background-image: url("{% static 'images/bg2.jpg' %}");
+            /* background-image: url("../static/images/bg2.jpg"); */
+        }
+
+        #sidebar {
+            position: absolute;
+            top: 105px;
+            right: 10px;
+            width: 200px;
+            height: 585px;
+            background-color: rgb(255, 255, 255);
+            border: 4px solid rgb(255, 255, 255);
+        }
+
+        #timg {
+            position: fixed;
+            width: 200px;
+            /* border: 1px solid red; */
+            display: block;
+
+        }
+
+        .rmd {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 18px;
+            font-family: Kaiti;
+            font-weight: 900;
+        }
+
+        
+
+        .btn {
+            border: 1px solid black;
+            cursor: pointer;
+            background-color: rgb(12, 139, 54);
+            height: 45px;
+            width: 100px;
+            font-size: 15px;
+            font-weight: 900;
+            line-height: 45px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            position: fixed;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #pforimg {
+            height: 5px;
+            display: block;
+        }
+
+        .tentrance{
+            display: inline-block;
+            background-color: rgb(127, 159, 180);
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+    <div class="cd">
+        <div id="sidebar">
+            <img style="position: relative;top: -43px;left:70px; height: 50px;" src="{% static 'images/r1.png' %}" alt="">
+            <div style="position: relative;top: -55px;">
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt="">
+            </div>
+        </div>
+        <table>
+            <th><a href="/cByself">用自己的照片转换风格</a></th>
+            <th><a href="/cBysystem">用系统推荐转换风格</a></th>
+            <th class="now"><a>变换时间背景</a></th>
+            <th><a href="/cSimple">变换地图风格</a></th>
+        </table>
+    </div>
+    <br><br><br>
+
+    <form action="/upload/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="tmethod" value="3" style="display: none;">
+        <table class="tab1">
+            <tr>
+                <td>
+                    <table class="tab1">
+                        <tr>
+                            <div class="divider"
+                                style="border:1px solid #ccc;width:430px;height:200px;text-indent:0;text-align: center;">
+                                <div id="reminder1" class="rmd"><br /><br /><br /><br />请上传<span
+                                style="color: red;">需要变换风格</span>的图片</div>
+                                <img src="" alt="" srcset="" id="new_img2"
+                                    style="width:auto;height:auto;max-width: 100%;max-height: 100%;">
+                            </div>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;"><br>
+                                <div style="position: relative; z-index: 1;">&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <input id="testFileInput2" type="file" multiple="true" name="pic1" />
+                                    <div class="btn" id="btn1" style="position: absolute;top: -9px;left: 105.5px;z-index: 2"
+                                        onmouseover="btnMOver(this)" onmouseout="btnMOut(this)" onmouseup="btnMUp(this)"
+                                        onmousedown="btnMDown(this)">点击此上传</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+
+                </td>
+                <td style="width: 100px; float:right; margin-top:-35px; margin-right:-15px;">
+                    <div id="time-entrance" class="tentrance" style="background-color: rgb(248, 63, 63);">转换时间</div>
+                    <div style="height: 5px;"></div>
+                    <div id="season-entrance" class="tentrance">转换季节</div>
+                    </td>
+                
+                        <td>
+                    <table class="tab1">
+                        
+                        
+                        <tr id="time-radio" >
+                            <td style="text-align: center;"><label for="nig" style="cursor: pointer;">转换为晚上</label><input type="radio" name="ttime"
+                                    id="nig" value="night" style="cursor: pointer;"></td>
+                            <td><label for="nig"><img src="{% static 'images/night.png' %}" alt="" style="width: 200px; cursor: pointer;"></label></td>
+                        
+                        </tr>
+
+                         <tr id="season-radio1" style="display: none;">
+                            <td style="text-align: center;"><label for="summer" style="cursor: pointer;">转换为夏天</label><input type="radio" name="ttime"
+                                    id="summer" value="summer" style="cursor: pointer;"></td>
+                            <td><label for="summer"><img src="{% static 'images/morning.png' %}" alt="" style="width: 200px; cursor: pointer;"></label>
+                            </td>
+
+                        </tr>
+                        <tr id="season-radio2" style="display: none;">
+                            <td style="text-align: center;"><label for="win" style="cursor: pointer;">转换为冬天</label><input type="radio" name="ttime"
+                                    id="win" value="winter" style="cursor: pointer;"></td>
+                            <td><label for="win"><img src="{% static 'images/aftn2.png' %}" alt="" style="width: 200px; cursor: pointer;"></label></td>
+                            
+                        </tr>
+
+                        
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="width: 100px;"></td>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="height: 100px;text-align: center;"><input type="submit" value="开始转换" name="submit"
+                        onmouseover="subMOver(this)" onmouseout="subMOut(this)" onmouseup="subMUp(this)"
+                        onmousedown="subMDown(this)"
+                        style="background-color:rgb(47, 74, 224);height: 45px;width: 156px;font-size: 18px;font-weight: 900;font-family:Arial, Helvetica, sans-serif;color: white; cursor: pointer;">
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+
+</body>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/zoomify.min.js' %}"></script>
+
+
+<script>
+    $(function () {
+        var $zoomify = $('.zoomify');
+        $zoomify.zoomify().on({
+
+            'zoom-in.zoomify': function () {
+
+            },
+            'zoom-in-complete.zoomify': function () {
+            },
+            'zoom-out.zoomify': function () {
+            },
+            'zoom-out-complete.zoomify': function () {
+            },
+        });
+    });
+</script>
+<script lang= script>
+    var new_file2 = document.querySelector('#testFileInput2'),
+        new_img2 = document.querySelector('#new_img2');
+
+    new_file2.addEventListener('change', function () {
+        var file = this.files[0],
+            size = file.size,
+            extStart = file.name.lastIndexOf('.'),
+            ext = file.name.substring(extStart, file.name.length).toUpperCase();
+        maxSize = Math.pow(3, 20);
+        if (size > 3 * 1024 * 1024 || size <= 0) {
+            alert('图片太大了')
+        } else {
+            var reader = new FileReader();
+            reader.addEventListener("load", function () {
+                new_img2.src = reader.result;
+            }, false);
+            reader.readAsDataURL(file);
+            document.getElementById('reminder1').innerHTML = '';
+        }
+
+    }, false);
+
+</script>
+
+<script>
+
+    $('#btn1').eq(0).click(function () {
+        $('#testFileInput2').click()
+    })
+
+    $('#btn2').eq(0).click(function () {
+        $('#testFileInput3').click()
+    })
+
+    function btnMOver(obj) {
+        obj.style.backgroundColor = "rgba(13, 173, 67)"
+    }
+    function btnMOut(obj) {
+        obj.style.backgroundColor = "rgb(12, 139, 54)"
+    }
+
+    function btnMDown(obj) {
+        obj.style.backgroundColor = "rgb(20, 117, 53)"
+    }
+
+    function btnMUp(obj) {
+        obj.style.backgroundColor = "rgb(12, 139, 54)"
+    }
+    function subMOver(obj) {
+        obj.style.backgroundColor = "rgb(60, 81, 196)"
+    }
+    function subMOut(obj) {
+        obj.style.backgroundColor = "rgb(47, 74, 224)"
+    }
+
+    function subMDown(obj) {
+        obj.style.backgroundColor = "rgb(23, 54, 228)"
+    }
+
+    function subMUp(obj) {
+        obj.style.backgroundColor = "rgb(47, 74, 224)"
+    }
+
+
+</script>
+
+<script>
+    $("#time-entrance").on("click", function (e) {
+        $("#time-radio").show();
+        $("#season-radio1").hide();
+        $("#season-radio2").hide();
+        $("#time-entrance").css({"background-color":"rgb(248, 63, 63)"});
+        $("#season-entrance").css({"background-color":"rgb(127, 159, 180)"});
+        
+        var x = document.getElementsByName("ttime");  //获取所有name=ttime的元素
+        for (var i = 0; i < x.length; i++) { //对所有结果进行遍历，如果状态是被选中的，则将其选择取消
+            if (x[i].checked == true) {
+                x[i].checked = false;
+            }
+        }
+        e.stopPropagation();
+    });
+
+    $("#season-entrance").on("click", function (e) {
+        $("#season-radio1").show();
+        $("#season-radio2").show();
+        $("#time-radio").hide();
+        $("#season-entrance").css({"background-color":"rgb(248, 63, 63)"});
+        $("#time-entrance").css({"background-color":"rgb(127, 159, 180)"});
+
+        var x = document.getElementsByName("ttime");  //获取所有name=ttime的元素
+        for (var i = 0; i < x.length; i++) { //对所有结果进行遍历，如果状态是被选中的，则将其选择取消
+            if (x[i].checked == true) {
+                x[i].checked = false;
+            }
+        }
+        e.stopPropagation();
+    });
+
+</script>
+
+</html>

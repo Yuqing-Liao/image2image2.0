@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>结果</title>
+    <style>
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .swiper-list {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .swiper-main {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .swiper-item {
+            height: 100%;
+            display: inline;
+            position: absolute;
+
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: default;
+
+        }
+
+        .swiper-spot {
+            width: 100%;
+            height: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 10px;
+            cursor: pointer;
+        }
+
+        .swiper-spot .spot-item {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-left: 10px;
+        }
+
+        .swiper-spot .spot-item:nth-of-type(1) {
+            margin-left: 0;
+        }
+
+        .leftBtn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .rightBtn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper-list"></div>
+    <br><br>
+    <div style="text-align: center;width: 60%;text-align: center;margin: 0 auto;">
+        <!-- 返回首页 -->
+        <a href="/index" style="position: relative; float: left;"><img src="{% static 'images/ret.png' %}" alt="" style="width: 200px; height: auto;"></a>
+        <span style="width: 15%;display: inline-block;"></span>
+        
+        <!-- 下载图片 -->
+        <div id="download" style="position: relative; width: 200px;
+        height: 89.26px; background-image: url(../static/images/dow.png);background-size: 200px 89.26px;float: right;"></div>
+        <!-- <a id = "download" href="" style="display: inline-block;"><img src="dow.png" alt="" style="width: 200px; height: auto;"></a> -->
+        
+        <!-- 分享 -->
+    <div class="bdsharebuttonbox" data-tag="share_1" style="position: relative;width: 100px; left: 85%;top: 3px;">
+        <a class="bds_tsina" data-cmd="tsina"></a>
+        <!--新浪微博-->
+        <a class="bds_weixin" data-cmd="weixin"></a>
+        <!--微信-->
+        <a class="bds_sqq" data-cmd="sqq" href="#"></a>
+        <!--QQ-->
+        <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+        <!--QQ空间-->
+    </div>
+        
+    </div>
+    <button id="btn" onclick="threeFn()">点我</button>
+
+</body>
+
+
+
+
+<script src="{% static 'js/slider.js' %}"></script>
+<script>
+    var g1=0;
+   
+    var save_roots = JSON.parse('{{ urls|safe }}');
+    var link = document.getElementById("download")
+    console.log(g1)
+    link.href = "/download" + save_roots[index]
+    
+    console.log(link.href)
+    
+    console.log(save_roots.length)
+    imgArr = []
+    for(i in save_roots)
+    {
+        imgArr.push({url:"#",imgPath:save_roots[i]})
+    }
+    console.log(imgArr);
+    
+    // let imgArr = ['i.jpg', 'o.jpg', 'q.jpeg'];
+    // let imgArr = ['i.jpg', 'o.jpg'];
+    // let imgArr = ['i.jpg'];
+    new Swiper({
+        imgArr: imgArr,
+        aniTIme: 1000,
+        intervalTime: 10000,
+        autoplay: false
+    }).init();
+    console.timeEnd();
+
+</script>
+
+
+<script>
+    window._bd_share_config = {
+        common: {
+            bdPopTitle: '窗口标题',
+            bdText: '发现一个新的网页，快来围观啊~',
+            bdDesc: 'Custom share summary',    //自定义分享摘要
+            bdUrl: 'Custom share URL address',     //自定义分享url地址
+            bdPic: '../static/images/bg1.jpg' //自定义分享图片
+        },
+        share: [{
+            "bdSize": 30
+        }],
+        slide: [{
+            bdImg: 0,
+            bdPos: "right",
+            bdTop: 100
+        }],
+        // image : [{
+        //      viewType : 'list',
+        //      viewPos : 'top',
+        //      viewColor : 'black',
+        //      viewSize : '16',
+        //      viewList : ['tsina','weixin','qzone']
+        // }],
+        // selectShare : [{
+        //     "bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf'] //自定义弹出浮层中的分享按钮类型和排列顺序
+        // }]
+    }
+    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+
+<script>
+    
+    var btn = document.getElementById("btn");
+
+// 第一种 通过点击事件
+btn.onclick = function(){
+    alert(g1);
+}
+</script>
+
+</html>

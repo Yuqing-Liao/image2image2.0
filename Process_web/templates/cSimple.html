@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变换地图风格</title>
+
+
+    <link rel="stylesheet" href="{% static 'css/zoomify.min.css' %}">
+    <style>
+        .cd {
+            margin: 0 auto;
+            width: 90%;
+            height: 50px;
+
+        }
+
+        .cd th {
+
+            margin: 0 auto;
+            width: 1%;
+            height: 50px;
+
+        }
+
+        .cd a {
+            display: block;
+            background-color: gray;
+            line-height: 50px;
+            color: white;
+            text-decoration: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        a:hover {
+            background-color: tomato;
+        }
+
+        .now a {
+            background-color: tomato;
+        }
+
+        .tab1 {
+
+            margin: 0 auto;
+        }
+
+        body {
+            background-image: url("{% static 'images/bg2.jpg' %}");
+        }
+
+        #sidebar {
+            position: absolute;
+            top: 105px;
+            right: 10px;
+            width: 200px;
+            height: 585px;
+            background-color: rgb(255, 255, 255);
+            border: 4px solid rgb(255, 255, 255);
+        }
+
+        #timg {
+            position: fixed;
+            width: 200px;
+            /* border: 1px solid red; */
+            display: block;
+
+        }
+
+        #pforimg {
+            height: 5px;
+            display: block;
+        }
+
+        .rmd {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 18px;
+            font-family: Kaiti;
+            font-weight: 900;
+        }
+
+
+
+        .btn {
+            border: 1px solid black;
+            cursor: pointer;
+            background-color: rgb(12, 139, 54);
+            height: 45px;
+            width: 100px;
+            font-size: 15px;
+            font-weight: 900;
+            line-height: 45px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            position: fixed;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+    <div class="cd">
+        <div id="sidebar">
+            <img style="position: relative;top: -43px;left:70px; height: 50px;" src="{% static 'images/r1.png' %}"
+                alt="">
+            <div style="position: relative;top: -55px;">
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt=""><span id="pforimg"></span>
+                <img class="zoomify" id="timg" src="{% static 'images/bg1.jpg' %}" alt="">
+            </div>
+        </div>
+        <table>
+            <th><a href="/cByself">用自己的照片转换风格</a></th>
+            <th><a href="/cBysystem">用系统推荐转换风格</a></th>
+            <th><a href="/cTime">变换时间背景</a></th>
+            <th class="now"><a>变换地图风格</a></th>
+        </table>
+    </div>
+    <br><br><br>
+
+    <form action="/upload/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="tmethod" value="4" style="display: none;">
+
+        <!-- 当为0时表示平面图转卫星图
+        当为1时表示微信图转平面图
+        在221行实现变换 -->
+        <input type="text" name="tmap" id="tmap" value="0" style="display: none;">
+        
+        <table class="tab1">
+            <tr>
+                <td>
+                    <table class="tab1">
+                        <tr>
+                            <div class="divider"
+                                style="border:1px solid #ccc;width:430px;height:200px;text-indent:0;text-align: center;">
+                                <div id="reminder1" class="rmd"><br /><br /><br /><br />请上传<span
+                                        style="color: red;">需要变换风格</span>的图片</div>
+                                <img src="" alt="" srcset="" id="new_img2"
+                                    style="width:auto;height:auto;max-width: 100%;max-height: 100%;">
+                            </div>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;"><br>
+                                <div style="position: relative; z-index: 1;">&emsp;&emsp;&emsp;&emsp;&emsp;
+                                    <input id="testFileInput2" type="file" multiple="true" name="pic1" />
+                                    <div class="btn" id="btn1"
+                                        style="position: absolute;top: -9px;left: 52.5px;z-index: 2;"
+                                        onmouseover="btnMOver(this)" onmouseout="btnMOut(this)" onmouseup="btnMUp(this)"
+                                        onmousedown="btnMDown(this)">点击此上传</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 100px;"></td>
+                <td>
+                    <table style="width: 440px;height: 320px;-webkit-user-select: none;
+                    -moz-user-select: none;-ms-user-select: none;user-select: none;">
+                        <tr>
+                            <td style="font-size: 18px;font-family: Kaiti;font-weight: 900;">
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;现图风格：</td>
+                            <td>
+                                <div><img src="{% static 'images/map1.jpg' %}" alt="" style="width: 350px;" id="pic1"></div>
+                            </td>
+                            <td rowspan="2" style="width: 85px;">
+                                <div id="swi"><img src="{% static 'images/switch.png' %}" alt="" style="width: 80px;cursor: pointer;"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 18px;font-family: Kaiti;font-weight: 900;">转换目标:</td>
+                            <td>
+                                <div><img src="{% static 'images/map2.jpg' %}" alt="" style="width: 350px;" id="pic2"></div>
+
+                                <!-- 帮助互换的工具人 -->
+                                <div><img src="" alt="" style="width: 350px;display: none;" id="pic3"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+
+                <td colspan="3" style="height: 100px;text-align: center;">
+                    <br><br><input type="submit" name="submit" value="开始转换" onmouseover="subMOver(this)"
+                        onmouseout="subMOut(this)" onmouseup="subMUp(this)" onmousedown="subMDown(this)"
+                        style="background-color:rgb(47, 74, 224);height: 45px;width: 156px;font-size: 18px;font-weight: 900;font-family:Arial, Helvetica, sans-serif;color: white; cursor: pointer;">
+                </td>
+            </tr>
+        </table>
+
+
+
+
+
+
+    </form>
+
+
+</body>
+
+<script>
+    // 交换地图例子
+    var input = document.getElementById("tmap");
+    var btn1 = document.getElementById("swi");
+    btn1.onclick = function () {
+        var obj1 = document.getElementById("pic1");
+        var obj2 = document.getElementById("pic2");
+        var obj3 = document.getElementById("pic3");
+        obj3.src = obj1.src;
+        obj1.src = obj2.src;
+        obj2.src = obj3.src;
+
+        // 点击互换时更改表单tmap的值
+        var a = input.value;
+        a = (a - 0 + 1) % 2;
+        input.value = a;
+        console.log(a);
+
+    }
+</script>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/zoomify.min.js' %}"></script>
+<script>
+    $(function () {
+        var $zoomify = $('.zoomify');
+        $zoomify.zoomify().on({
+
+            'zoom-in.zoomify': function () {
+
+            },
+            'zoom-in-complete.zoomify': function () {
+            },
+            'zoom-out.zoomify': function () {
+            },
+            'zoom-out-complete.zoomify': function () {
+            },
+        });
+    });
+</script>
+<script>
+
+
+    var new_file2 = document.querySelector('#testFileInput2'),
+        new_img2 = document.querySelector('#new_img2');
+
+    new_file2.addEventListener('change', function () {
+        var file = this.files[0],
+            size = file.size,
+            extStart = file.name.lastIndexOf('.'),
+            ext = file.name.substring(extStart, file.name.length).toUpperCase();
+        maxSize = Math.pow(3, 20);
+        if (size > 3 * 1024 * 1024 || size <= 0) {
+            alert('图片太大了')
+        } else {
+            var reader = new FileReader();
+            reader.addEventListener("load", function () {
+                new_img2.src = reader.result;
+            }, false);
+            reader.readAsDataURL(file);
+            document.getElementById('reminder1').innerHTML = '';
+        }
+
+    }, false);
+
+
+</script>
+
+<script>
+
+    $('#btn1').eq(0).click(function () {
+        $('#testFileInput2').click()
+    })
+
+    $('#btn2').eq(0).click(function () {
+        $('#testFileInput3').click()
+    })
+
+    // $('#sub1').eq(0).click(function () {
+    //     $('#sub2').click()
+    // })
+
+    // $('#sub2').eq(0).click(function () {
+    //     setTimeout(function(){
+    //         location.href='wait.html';
+    //     },5000)
+    // })
+
+
+    function btnMOver(obj) {
+        obj.style.backgroundColor = "rgba(13, 173, 67)"
+    }
+    function btnMOut(obj) {
+        obj.style.backgroundColor = "rgb(12, 139, 54)"
+    }
+
+    function btnMDown(obj) {
+        obj.style.backgroundColor = "rgb(20, 117, 53)"
+    }
+
+    function btnMUp(obj) {
+        obj.style.backgroundColor = "rgb(12, 139, 54)"
+    }
+
+
+
+
+    function subMOver(obj) {
+        obj.style.backgroundColor = "rgb(60, 81, 196)"
+    }
+    function subMOut(obj) {
+        obj.style.backgroundColor = "rgb(47, 74, 224)"
+    }
+
+    function subMDown(obj) {
+        obj.style.backgroundColor = "rgb(23, 54, 228)"
+
+    }
+
+    function subMUp(obj) {
+        obj.style.backgroundColor = "rgb(47, 74, 224)"
+    }
+
+</script>
+
+</html>

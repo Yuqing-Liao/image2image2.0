@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="CN">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>结果</title>
+    <style>
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        .swiper-list {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .swiper-main {
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .swiper-item {
+            height: 100%;
+            display: inline;
+            position: absolute;
+
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: default;
+
+        }
+
+        .swiper-spot {
+            width: 100%;
+            height: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 10px;
+            cursor: pointer;
+        }
+
+        .swiper-spot .spot-item {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-left: 10px;
+        }
+
+        .swiper-spot .spot-item:nth-of-type(1) {
+            margin-left: 0;
+        }
+
+        .leftBtn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .rightBtn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper-list" style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
+    <br>
+    <table style="margin: auto;">
+        <tr>
+            <td></td>
+            <td></td>
+
+            <td>
+                <!-- 分享 -->
+                <div class="bdsharebuttonbox" data-tag="share_1"
+                    style="position: relative; left: 28%;">
+                    <a class="bds_tsina" data-cmd="tsina"></a>
+                    <!--新浪微博-->
+                    <a class="bds_weixin" data-cmd="weixin"></a>
+                    <!--微信-->
+                    <a class="bds_sqq" data-cmd="sqq" href="#"></a>
+                    <!--QQ-->
+                    <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+                    <!--QQ空间-->
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <!-- 返回首页 -->
+                <a href="/index" style="position: relative; float: left;-webkit-user-select: none;-moz-user-select: none;
+                -ms-user-select: none;user-select: none;"><img src="{% static 'images/ret.png' %}" alt=""
+                        style="width: 200px; height: 89.26px;"></a>
+                <span style="width: 15%;display: inline-block;"></span>
+            </td>
+
+            <td style="width: 50%;text-align: center;">
+                <!-- 表单传递选的图片标号 -->
+                <form action="/download/" method="POST" id="Download"
+                    style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
+                    {% csrf_token %}
+                    <p id="addcheckbox"></p>
+                
+                
+                    <button onclick="checkboxed('checkbox')" style="-webkit-user-select: none;-moz-user-select: none;
+                    -ms-user-select: none;user-select: none;">全选</button>
+                    <button onclick="uncheckboxed('checkbox')" style="-webkit-user-select: none;-moz-user-select: none;
+                    -ms-user-select: none;user-select: none;">取消全选</button>
+    
+                    <td>
+                    <!-- 下载图片 -->
+                    <!--
+                        <div id="download" onclick="javascript:form.submit()";
+                            style="position: relative; width: 200px; top: -12px;
+                        height: 89.26px; background-image: url(../static/images/dow.png);background-size: 200px 89.26px;float: right;"></div>
+                    -->
+                    <input type="image" src="../static/images/dow.png" id="sub" 
+                            style="position: relative; width: 200px; top: -12px;
+                        height: 89.26px;float: right;"></input>
+                    </td>
+                </form>
+
+            </td>
+
+
+        </tr>
+    </table>
+
+
+</body>
+
+<!-- 全选与取消全选按钮 -->
+<script>
+    function checkboxed(objName) {
+        var objNameList = document.getElementsByName(objName);
+
+        if (null != objNameList) {
+            //alert("全选操作");
+            for (var i = 0; i < objNameList.length; i++) {
+                objNameList[i].checked = "checked";
+            }
+        }
+    }
+
+    function uncheckboxed(objName) {
+        var objNameList = document.getElementsByName(objName);
+
+        if (null != objNameList) {
+            //alert("取消全选操作");
+            for (var i = 0; i < objNameList.length; i++) {
+                objNameList[i].checked = "";
+            }
+        }
+    }
+</script>
+
+
+<script src="{% static 'js/slider.js' %}"></script>
+<!-- 生成选项 -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script>
+    var save_roots = JSON.parse('{{ urls|safe }}');
+    //console.log(save_roots)
+    imgArr = []
+    for(i in save_roots)
+    {
+         imgArr.push({url:"#",imgPath:save_roots[i]})
+    }
+    var tnum = save_roots.length
+    /*
+    var tnum = prompt("请输入图片数量", "")
+    //这里到时候可以是其等于图片数量
+    
+    tnum = tnum - 0;
+    */
+    new Swiper({
+        imgArr: imgArr,
+        aniTIme: 1000,
+        intervalTime: 10000,
+        autoplay: false
+    }).init();
+    console.timeEnd();
+/*
+    function submitForm() {
+        if (validate()) {
+            var select = document.getElementsByName("checkbox")
+            console.log(select.length)
+            //var submit = document.getElementById("sub")
+            for(var i=0;i<select.length;i++){
+                if(select[i].checked){
+                    console.log("easd")
+                    select[i].setAttribute('value',save_roots[i])   
+                }
+            }
+            document.getElementByIdx_x("Download").submit();
+        }
+    }
+*/
+    tcol = Math.ceil(tnum / 5) //列数
+    tlast = tnum % 5;//最后一行的数量
+    // console.log(tnum, tcol, tlast);
+    $(document).ready(function () {
+
+        if (tlast == 0) tlast = 5;
+        for (j = 0; j < tcol - 1; j++) {
+            for (i = 1; i <= 5; i++) {
+                n = j * 5 + i - 0;
+                $("p").append('<label for="' + n + '" style="cursor: pointer;">' + n + '</label><input type="checkbox" name="checkbox"value="'+save_roots[n-1]+'" id="' + n + '" style="cursor: pointer;">&nbsp;&nbsp;');
+            }
+            $("p").append('<br>');
+        }
+        
+        for (i = 1; i <= tlast; i++) {
+            n = (tcol - 1) * 5 + i - 0;
+            $("p").append('<label for="' + n + '" style="cursor: pointer;">' + n + '</label><input type="checkbox" name="checkbox"value="'+save_roots[n-1]+'" id="' + n + '" style="cursor: pointer;">&nbsp;&nbsp;');
+        }
+    })
+</script>
+
+<script>
+    window._bd_share_config = {
+        common: {
+            bdPopTitle: '窗口标题',
+            bdText: '发现一个新的网页，快来围观啊~',
+            bdDesc: 'Custom share summary',    //自定义分享摘要
+            bdUrl: 'Custom share URL address',     //自定义分享url地址
+            bdPic: '../static/images/bg1.jpg' //自定义分享图片
+        },
+        share: [{
+            "bdSize": 30
+        }],
+        slide: [{
+            bdImg: 0,
+            bdPos: "right",
+            bdTop: 100
+        }],
+        // image : [{
+        //      viewType : 'list',
+        //      viewPos : 'top',
+        //      viewColor : 'black',
+        //      viewSize : '16',
+        //      viewList : ['tsina','weixin','qzone']
+        // }],
+        // selectShare : [{
+        //     "bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf'] //自定义弹出浮层中的分享按钮类型和排列顺序
+        // }]
+    }
+    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+
+
+
+</html>
