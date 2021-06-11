@@ -11,8 +11,8 @@
         }
 
         .swiper-list {
-            width: 960px;
-            height: 540px;
+            width: 640px;
+            height: 360px;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
@@ -83,10 +83,22 @@
             height: 30px;
             cursor: pointer;
         }
+
+        body {
+            background-image: url("{% static 'images/bg2.jpg' %}");
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
     </style>
 </head>
 
 <body>
+    <br>
+    <h1 style="font-weight: 900;">&emsp;&emsp;&emsp;&emsp;&emsp;<i>转换成功</i>🎉🎉🎉</h1>
+    <br>
     <div class="swiper-list" style="-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;"></div>
     <br>
     <table style="margin: auto;">
@@ -114,7 +126,7 @@
                 <!-- 返回首页 -->
                 <a href="/index" style="position: relative; float: left;-webkit-user-select: none;-moz-user-select: none;
                 -ms-user-select: none;user-select: none;"><img src="{% static 'images/ret.png' %}" alt=""
-                        style="width: 200px; height: 89.26px;"></a>
+                        style="width: 150px; height: 66.945px;"></a>
                 <span style="width: 15%;display: inline-block;"></span>
             </td>
 
@@ -139,8 +151,8 @@
                         height: 89.26px; background-image: url(../static/images/dow.png);background-size: 200px 89.26px;float: right;"></div>
                     -->
                     <input type="image" src="../static/images/dow.png" id="sub" 
-                            style="position: relative; width: 200px; top: -12px;
-                        height: 89.26px;float: right;"></input>
+                            style="position: relative; width: 150px; top: -12px;
+                        height: 66.945px;float: right;"></input>
                     </td>
                 </form>
 

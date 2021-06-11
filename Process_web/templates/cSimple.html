@@ -53,13 +53,17 @@
 
         body {
             background-image: url("{% static 'images/bg2.jpg' %}");
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         #sidebar {
             position: absolute;
             top: 105px;
             right: 10px;
-            width: 200px;
+            width: 180px;
             height: 585px;
             background-color: rgb(255, 255, 255);
             border: 4px solid rgb(255, 255, 255);
@@ -67,7 +71,7 @@
 
         #timg {
             position: fixed;
-            width: 200px;
+            width: 180px;
             /* border: 1px solid red; */
             display: block;
 
@@ -183,7 +187,7 @@
                                 <div><img src="{% static 'images/map1.jpg' %}" alt="" style="width: 350px;" id="pic1"></div>
                             </td>
                             <td rowspan="2" style="width: 85px;">
-                                <div id="swi"><img src="{% static 'images/switch.png' %}" alt="" style="width: 80px;cursor: pointer;"></div>
+                                <div id="swi"><img src="{% static 'images/switch.png' %}" alt="" style="width: 55px;cursor: pointer;position: relative; right: 12px;"></div>
                             </td>
                         </tr>
                         <tr>
